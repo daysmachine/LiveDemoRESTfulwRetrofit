@@ -37,12 +37,16 @@ class MemerViewModel : ViewModel()
             }
     }
 
-    fun getCurrentMemeTemplate(): MemeTemplatesFragment? {
+    //slide 60 need to fix
+    fun getCurrentMemeTemplate(): MemeTemplateItem? {
         if (this.memeTemplatesLiveData.value != null ){
 
             this.keepTemplateIndexInBounds()
 
-            return this.memeTemplatesLiveData.value!![this.templateIndex]
+            if (this.templateIndex >= 0 && this.templateIndex <= this.memeTemplatesLiveData.value!!.size){
+               return this.memeTemplatesLiveData.value!![this.templateIndex]
+            }
+
         }
 
         return null

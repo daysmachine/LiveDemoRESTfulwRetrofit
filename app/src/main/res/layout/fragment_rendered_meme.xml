@@ -7,11 +7,19 @@
     android:orientation="vertical">
 
     <EditText
-        android:id="@+id/caption_input"
+        android:id="@+id/caption_input1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Enter a meme caption"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/caption_input2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Enter a second caption"
         android:inputType="textPersonName" />
 
     <Button

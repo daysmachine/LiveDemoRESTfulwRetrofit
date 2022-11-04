@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.squareup.picasso.Picasso
 
 private const val TAG = "MemeTemplatesFragment"
 class MemeTemplatesFragment : Fragment()
@@ -63,11 +64,22 @@ class MemeTemplatesFragment : Fragment()
             this.viewLifecycleOwner,
             Observer { memeTemplates ->
                 Log.d(TAG, "ViewModel has noticed new meme templates: $memeTemplates")
+
+                this.updateToCurrentMemeTemplate()
             }
         )
     }
 
     private fun updateToCurrentMemeTemplate() {
         this.memeTemplateIndexLabel.text = this.memerViewModel.getTemplateIndex().toString()
+
+        val template = this.memerViewModel.getCurrentMemeTemplate()
+        if( template != null){
+            Log.v(TAG, "Meme template selected: $template")
+
+            Picasso.get()
+                .load(template.url)
+                .into(this.memeTemplateImage)
+        }
     }
 }
