@@ -51,7 +51,7 @@ class ImgFlipExecutor
                     it.url.isBlank()
                 }
 
-                Log.v(TAG, "ImgFlip templates: $memeTemplates")
+                //Log.v(TAG, "ImgFlip templates: $memeTemplates")
 
                 responseLiveData.value = memeTemplates
             }

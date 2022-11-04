@@ -1,6 +1,7 @@
 package com.example.livedemorestfulwretrofit
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,8 +9,10 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 
+private const val TAG = "MemeTemplatesFragment"
 class MemeTemplatesFragment : Fragment()
 {
     private lateinit var memerViewModel: MemerViewModel
@@ -39,5 +42,17 @@ class MemeTemplatesFragment : Fragment()
         this.memeTemplateIndexLabel = view.findViewById(R.id.meme_template_index_label)
 
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?)
+    {
+        super.onViewCreated(view, savedInstanceState)
+
+        this.memerViewModel.memeTemplatesLiveData.observe(
+            this.viewLifecycleOwner,
+            Observer { memeTemplates ->
+                Log.d(TAG, "ViewModel has noticed new meme templates: $memeTemplates")
+            }
+        )
     }
 }
