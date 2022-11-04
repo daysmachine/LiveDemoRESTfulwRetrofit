@@ -41,6 +41,17 @@ class MemeTemplatesFragment : Fragment()
         this.nextButton = view.findViewById(R.id.next_button)
         this.memeTemplateIndexLabel = view.findViewById(R.id.meme_template_index_label)
 
+        this.prevButton.setOnClickListener {
+            this.memerViewModel.decreaseTemplateIndex()
+            this.updateToCurrentMemeTemplate()
+        }
+
+        this.nextButton.setOnClickListener {
+            this.memerViewModel.increaseTemplateIndex()
+            this.updateToCurrentMemeTemplate()
+        }
+
+
         return view
     }
 
@@ -54,5 +65,9 @@ class MemeTemplatesFragment : Fragment()
                 Log.d(TAG, "ViewModel has noticed new meme templates: $memeTemplates")
             }
         )
+    }
+
+    private fun updateToCurrentMemeTemplate() {
+        this.memeTemplateIndexLabel.text = this.memerViewModel.getTemplateIndex().toString()
     }
 }
