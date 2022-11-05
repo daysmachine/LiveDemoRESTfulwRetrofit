@@ -60,4 +60,60 @@ class ImgFlipExecutor
 
         return responseLiveData
     }
+
+    fun captionImage(
+        template_id: String,
+        caption1: String,
+        caption2: String
+    )
+    {
+        val responseLiveData: MutableLiveData<ImgFlipCaptionImageResponseData> = MutableLiveData()
+
+        val imgFlipRequest : Call<ImgFlipCaptionImageResponse> = this.api.captionImage(
+            template_id = template_id,
+            caption1 = caption1,
+            caption2 = caption2,
+            username = HorribleIdea_AuthCredentials.HORRIBLE_IDEA_USERNAME,
+            password = HorribleIdea_AuthCredentials.HORRIBLE_IDEA_PASSWORD
+        )
+
+        Log.d(TAG, "Enqueuing a request to caption meme #$template_id with $caption1 / $caption2")
+
+        imgFlipRequest.enqueue(object: Callback<ImgFlipCaptionImageResponse>{
+
+            override fun onFailure(call: Call<ImgFlipCaptionImageResponse>, t: Throwable) {
+
+                Log.e(TAG, "Failed to caption ImgFlip meme template!")
+            }
+
+            override fun onResponse(
+                call: Call<ImgFlipCaptionImageResponse>,
+                response: Response<ImgFlipCaptionImageResponse>
+            ) {
+                Log.d(TAG, "Response received from ImgFlip caption_image endpoint")
+
+                val imgFlipCaptionImageResponse: ImgFlipCaptionImageResponse? = response.body()
+
+                if (imgFlipCaptionImageResponse?.success == true) {
+
+                    val imgFlipCaptionImageResponseData: ImgFlipCaptionImageResponseData = imgFlipCaptionImageResponse.data
+                    responseLiveData.value = imgFlipCaptionImageResponseData
+                    Log.d(TAG, "Get new meme url: ${imgFlipCaptionImageResponseData.url}")
+
+                }
+                else {
+                    Log.e(
+                        TAG,
+                        "Request  to caption image has failed ${imgFlipCaptionImageResponse?.error_message}"
+                    )
+                }
+            }
+
+
+
+        })
+
+
+        return responseLiveData
+    }
 }

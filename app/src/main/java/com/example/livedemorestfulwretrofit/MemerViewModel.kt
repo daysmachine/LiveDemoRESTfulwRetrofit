@@ -1,9 +1,14 @@
 package com.example.livedemorestfulwretrofit
 
+import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.livedemorestfulwretrofit.api.ImgFlipCaptionImageResponseData
 import com.example.livedemorestfulwretrofit.api.ImgFlipExecutor
 import com.example.livedemorestfulwretrofit.api.MemeTemplateItem
+
+private const val TAG = "MemerViewModel"
 
 class MemerViewModel : ViewModel()
 {
@@ -37,7 +42,6 @@ class MemerViewModel : ViewModel()
             }
     }
 
-    //slide 60 need to fix
     fun getCurrentMemeTemplate(): MemeTemplateItem? {
         if (this.memeTemplatesLiveData.value != null ){
 
@@ -55,5 +59,20 @@ class MemerViewModel : ViewModel()
     val memeTemplatesLiveData: LiveData<List<MemeTemplateItem>>
     init {
         this.memeTemplatesLiveData = ImgFlipExecutor().fetchTemplates()
+    }
+
+    var captionMemeLiveData: LiveData<ImgFlipCaptionImageResponseData> = MutableLiveData<ImgFlipCaptionImageResponseData>()
+
+    fun captionImage(template_id: String, caption1: String, caption2: String): LiveData<ImgFlipCaptionImageResponseData> {
+        Log.d(TAG, "Received the request to caption meme #$template_id with #$caption1 / #$caption2")
+
+        this.captionMemeLiveData = ImgFlipExecutor.captionImage(
+            template_id = template_id,
+            caption1 = caption1,
+            caption2 = caption2
+        )
+
+
+        return this.captionMemeLiveData
     }
 }
