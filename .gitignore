@@ -13,5 +13,5 @@
 .externalNativeBuild
 .cxx
 local.properties
-/app/src/main/java/com/example/livedemorestfulwretrofit/api/HorribleIdea_AuthCredentials.kt
+**/HorribleIdea_AuthCredentials.kt
 
